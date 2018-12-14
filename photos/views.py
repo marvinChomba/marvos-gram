@@ -32,11 +32,9 @@ def comment(request):
     image_id = request.POST.get("id")
     image = Image.objects.get(pk = image_id)
     Comments.objects.create(user = request.user, image = image, comm = request.POST.get("comment"))
-    print(request.POST.get("comment"))
-    print("*****")
-    print(request.POST.get("id"))
-    html = render_to_string("comment.html",{"comments":Comments.objects.all()})
+    
+    user = request.user.username
+    comment = request.POST.get("comment")
 
-    data = {"html":html}
-
+    data = {"user":user, "comment":comment}
     return JsonResponse(data)

@@ -20,7 +20,7 @@
                     <div class="card-header">
                         {{image.user.username}}
                     </div>
-                    <div class="card-body">
+                    <div class="card-body"  >
                         <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
                     </div>
                     <div class="card-footer">
@@ -53,9 +53,7 @@
             function liker(id) {
                 // $(".like-input").val(id)
                 // let image_id = $(".like-input").val()
-                icons = document.getElementsByClassName("likes-icon")
-                console.log(icons,id)
-                const image_id = parseInt(id)
+                let icons = document.getElementsByClassName("likes-icon")
                 $.ajax({
                     "url":"/ajax/like/",
                     "type": "POST",
@@ -75,12 +73,11 @@
                 e.preventDefault()
             })
             function commenter(id) {
-                comments = document.getElementsByClassName("comments")
-                image_id = parseInt(id)
-                console.log(comments)
-                alert(image_id)
-                comment = $(".comment-val").val()
-                alert(id)
+                let comments = document.getElementsByClassName("comments")
+                let image_id = parseInt(id)
+                let commentVals = document.getElementsByClassName("comment-val")
+                let comment = commentVals[id - 1].value
+                let actuals = document.getElementsByClassName("actual-comment")
                 $.ajax({
                     "url": "/ajax/comment/",
                     "type": "POST",
@@ -91,7 +88,10 @@
                     },
                     "dataType": "json",
                     "success": function(res) {
-                        comments[image_id - 1].innerHTML = res["html"]
+                        let p = document.createElement("p")
+                        p.setAttribute("class", "actual-comment")
+                        p.textContent = res['user'] + " : " + res["comment"]
+                        comments[image_id - 1].appendChild(p)
                     }
                 })
                 $(".comment-val").val("") 
