@@ -17,3 +17,7 @@ class Profile(models.Model):
 class Comments(models.Model):
     image = models.ForeignKey(Image, related_name = "comments")
     user = models.ForeignKey(User, related_name = "comments")
+
+class Follow(models.Model):
+    user = models.ForeignKey(User, related_name = "followers")
+    followed_by = models.ForeignKey(User, related_name = "following")
