@@ -15,6 +15,7 @@ class Profile(models.Model):
     pic = models.ImageField(upload_to = 'pics')
 
 class Comments(models.Model):
+    comm = models.CharField(max_length = 100, blank = True)
     image = models.ForeignKey(Image, related_name = "comments")
     user = models.ForeignKey(User, related_name = "comments")
 

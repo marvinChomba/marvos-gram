@@ -24,13 +24,19 @@
                         <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
                     </div>
                     <div class="card-footer">
-                        <form action="{% url 'like' %}" method="post">
-                            <p class="likes-icon">{{image.likes.all.count}}</p>
-                            <input type="text" name="" id="" class="like-input">
+                        <form action="{% url 'like' %}" method="post" class="form-inline">
                             {%csrf_token%}
+                            <p class="likes-icon mr-2">{{image.likes.all.count}}</p>
                             <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button>
                         </form>
-                        <p>{{image.comments.all.count}}</p>
+                        <div class="comments">
+                            {% include 'comment.html' %}
+                        </div>
+                        <form action="{% url 'comment' %}" method="post" class="form-inline">
+                            {% csrf_token %}
+                            <input type="text" name="comment" id="" class="form-control comment-val" required>
+                            <button type="submit" class="btn btn-sm btn-primary comment-btn" onclick="commenter('{{image.id}}')">Add</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -65,7 +71,31 @@
                     }
                 })
             }
-
+            $(".comment-btn").click(e => {
+                e.preventDefault()
+            })
+            function commenter(id) {
+                comments = document.getElementsByClassName("comments")
+                image_id = parseInt(id)
+                console.log(comments)
+                alert(image_id)
+                comment = $(".comment-val").val()
+                alert(id)
+                $.ajax({
+                    "url": "/ajax/comment/",
+                    "type": "POST",
+                    "data": {
+                        "id": image_id,
+                        "comment": comment,
+                        "csrfmiddlewaretoken": '{{csrf_token}}'
+                    },
+                    "dataType": "json",
+                    "success": function(res) {
+                        comments[image_id - 1].innerHTML = res["html"]
+                    }
+                })
+                $(".comment-val").val("") 
+            }
         </script>
     {% endblock %}
 </body>

@@ -1,0 +1,3 @@
+{% for comment in image.comments.all %}
+<p>{{comment.user.username}}: {{comment.comm}}</p>
+{% endfor %}

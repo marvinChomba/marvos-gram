@@ -27,3 +27,16 @@ def like(request):
     likes = image.likes.all().count()
     data = {"likes":likes}
     return JsonResponse(data)
+
+def comment(request):
+    image_id = request.POST.get("id")
+    image = Image.objects.get(pk = image_id)
+    Comments.objects.create(user = request.user, image = image, comm = request.POST.get("comment"))
+    print(request.POST.get("comment"))
+    print("*****")
+    print(request.POST.get("id"))
+    html = render_to_string("comment.html",{"comments":Comments.objects.all()})
+
+    data = {"html":html}
+
+    return JsonResponse(data)
