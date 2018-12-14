@@ -2,14 +2,15 @@ $(document).ready(() => {
     $(".like-btn").click((e) => {
         e.preventDefault()
         id = $(".like-btn").attr("value")
+        alert(id)
         section = $("#image-section")
         $.ajax({
-            "url":"/ajax/like/",
+            "url": "/ajax/like/",
             "type": "POST",
-            "data": {"id":id, "scrfmiddlewaretoken": },
-            "dataType":"json",
-            "success": function(res) {
-                alert('hey')
+            "data": { "id": id, "csrfmiddlewaretoken": '{{csrf_token}}' },
+            "dataType": "json",
+            "success": function (res) {
+                $("#likes-icon").html(res["likes"])
             }
         })
     })

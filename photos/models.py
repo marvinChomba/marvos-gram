@@ -21,3 +21,6 @@ class Comments(models.Model):
 class Follow(models.Model):
     user = models.ForeignKey(User, related_name = "followers")
     followed_by = models.ForeignKey(User, related_name = "following")
+
+class idss(models.Model):
+    identifier = models.CharField(max_length = 30, null = True)

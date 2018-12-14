@@ -16,18 +16,19 @@
         {% for image in images%}
         <div class="row mt-3">
             <div class="col-4">
-                <div class="card">
+                <div class="card" id="{{image.id}}">
                     <div class="card-header">
                         {{image.user.username}}
                     </div>
                     <div class="card-body">
                         <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
                     </div>
-                    <p id="likes-icon">{{image.likes.all.count}}</p>
                     <div class="card-footer">
                         <form action="{% url 'like' %}" method="post">
+                            <p class="likes-icon">{{image.likes.all.count}}</p>
+                            <input type="text" name="" id="" class="like-input">
                             {%csrf_token%}
-                            <button type="submit" class="btn btn-success like-btn" value="{{image.id}}">Like</button>
+                            <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button>
                         </form>
                         <p>{{image.comments.all.count}}</p>
                     </div>
@@ -40,22 +41,31 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         {% bootstrap_javascript %}
         <script>
-            $(document).ready(() => {
-                $(".like-btn").click((e) => {
-                    e.preventDefault()
-                    id = $(".like-btn").attr("value")
-                    section = $("#image-section")
-                    $.ajax({
-                        "url":"/ajax/like/",
-                        "type": "POST",
-                        "data": {"id":id, "csrfmiddlewaretoken": '{{csrf_token}}'},
-                        "dataType":"json",
-                        "success": function(res) {
-                            $("#likes-icon").html(res["likes"])
-                        }
-                    })
-                })
+            $(".like-btn").click((e) => {
+                e.preventDefault()
             })
+            function liker(id) {
+                // $(".like-input").val(id)
+                // let image_id = $(".like-input").val()
+                icons = document.getElementsByClassName("likes-icon")
+                console.log(icons,id)
+                const image_id = parseInt(id)
+                $.ajax({
+                    "url":"/ajax/like/",
+                    "type": "POST",
+                    "data": {
+                        "id":image_id, 
+                        "csrfmiddlewaretoken": '{{csrf_token}}'
+                    },
+                    "dataType":"json",
+                    "success": function(res) {
+                        let imagess = parseInt(image_id)
+                        imagess -= 1
+                        icons[imagess].innerHTML = res['likes']
+                    }
+                })
+            }
+
         </script>
     {% endblock %}
 </body>
