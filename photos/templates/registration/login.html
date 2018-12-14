@@ -1,5 +1,5 @@
 {% load bootstrap4%}
-{% load static%}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,14 +11,15 @@
     <title>Login</title>
     {% block styles %}
         {% bootstrap_css%}
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
     {% endblock %}
 </head>
 
 <body>
-    <div class="m-auto col-5 mt-5" style="position:relative;top: 20px;">
+    <div class="m-auto col-4 mt-5" style="position:relative;top: 20px;">
         <div class="card">
             <div class="card-header">
-                <h3>Login</h3>
+                <h3 class="text-center">Instagram</h3>
             </div>
             <div class="card-body">
                 <form action="accounts/login/" method="post">
