@@ -12,26 +12,51 @@
     {% endblock %}
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="image-section">
         {% for image in images%}
-            <div class="row mt-3">
-                <div class="col-4">
-                    <div class="card">
-                        <div class="card-header">
-                            {{image.user.username}}
-                        </div>
-                        <div class="card-body">
-                            <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
-                        </div>
-                        <div class="card-footer">
-                            <p>{{image.likes.all.count}}</p>
-                            <a href="{% url 'like' image.id%}" class="btn btn-success">Like</a>
-                            <p>{{image.comments.all.count}}</p>
-                        </div>
+        <div class="row mt-3">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        {{image.user.username}}
+                    </div>
+                    <div class="card-body">
+                        <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
+                    </div>
+                    <p id="likes-icon">{{image.likes.all.count}}</p>
+                    <div class="card-footer">
+                        <form action="{% url 'like' %}" method="post">
+                            {%csrf_token%}
+                            <button type="submit" class="btn btn-success like-btn" value="{{image.id}}">Like</button>
+                        </form>
+                        <p>{{image.comments.all.count}}</p>
                     </div>
                 </div>
             </div>
+        </div>
         {% endfor%}
     </div>
+    {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        {% bootstrap_javascript %}
+        <script>
+            $(document).ready(() => {
+                $(".like-btn").click((e) => {
+                    e.preventDefault()
+                    id = $(".like-btn").attr("value")
+                    section = $("#image-section")
+                    $.ajax({
+                        "url":"/ajax/like/",
+                        "type": "POST",
+                        "data": {"id":id, "csrfmiddlewaretoken": '{{csrf_token}}'},
+                        "dataType":"json",
+                        "success": function(res) {
+                            $("#likes-icon").html(res["likes"])
+                        }
+                    })
+                })
+            })
+        </script>
+    {% endblock %}
 </body>
 </html>
