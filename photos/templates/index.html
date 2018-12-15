@@ -19,10 +19,12 @@
                 <div class="card" id="{{image.id}}">
                     <div class="card-header">
                         {{image.user.username}}
-                        {% if image.user.is_following %}
-                            <button class="btn unfollow-btn" onclick="follower('{{image.id}}')">Unfollow</button>
+                        {% if image.user.id == current_user.id %}
+                            <button class="btn follow-btn" onclick="follower('{{image.id}}')">Me</button>
+                        {% elif image.user.is_following %}
+                            <button class="btn follow-btn" onclick="follower('{{image.id}}')">Following</button>
                         {% else %}
-                            <button class="btn follow-btn btn-success" onclick="follower('{{image.id}}')">Follow</button>
+                            <button class="btn follow-btn" onclick="follower('{{image.id}}')">Follow</button>
                         {% endif %}
                     </div>
                     <div class="card-body"  >
@@ -105,9 +107,7 @@
             }
             function follower(id) {
                 let image_id = parseInt(id)
-                alert(image_id)
                 followBtns = document.getElementsByClassName("follow-btn")
-                unfollowBtns = document.getElementsByClassName("unfollow-btn")
                 $.ajax({
                     "url": "/ajax/follow/",
                     "type": "POST",
@@ -118,10 +118,12 @@
                     "dataType": "json",
                     "success": function(res) {
                         if(res['followed'] == 1) {
-                            followBtns[image_id - 1].innerHTML = "<button class='btn unfollow-btn' onclick=follower'('{ { image.id } }')'>Unfollow</button>"
+                            // followBtns[image_id - 1].innerHTML = "<button class='btn unfollow-btn' onclick=follower'('{ { image.id } }')'>Unfollow</button>"
+                            followBtns[image_id - 1].textContent = "Following"
                         } else {
-                            let btn = document.createElement("button")
-                            unfollowBtns[image_id - 1].innerHTML = "<button class='btn follow-btn btn-success' onclick='follower('{{image.id}}')'>Follow</button>"
+                            // followBtns[image_id - 1].innerHTML = "<button class='btn follow-btn btn-success' onclick='follower('{{image.id}}')'>Follow</button>"
+                            followBtns[image_id - 1].textContent = "Follow"
+
                         }
                     }
                 })

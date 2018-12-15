@@ -9,6 +9,7 @@ class Image(models.Model):
     caption = models.CharField(max_length = 50, blank = True)
     likes = models.ManyToManyField(User, related_name = "likes", blank = True)
     user = models.ForeignKey(User)
+    pub_date = models.DateTimeField(auto_now_add = True, blank = True)
 
     def following(self,request):
         user = self.user

@@ -3,6 +3,7 @@ from .models import Image,Follow,Comments,Profile,idss
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from .forms import ImageForm
 
 # Create your views here.
 @login_required(login_url = "accounts/login")
@@ -18,7 +19,6 @@ def index(request):
             image.user.is_following = True
         else: 
             image.user.is_following = False
-            print(False)
     return render(request,"index.html", {"images":images})
 
 def like(request):
@@ -30,7 +30,6 @@ def like(request):
     last_one = idss.objects.all()
     mwisho = idss.objects.get(pk = last_one.count())
     image = Image.objects.get(pk = mwisho.identifier)
-    print(image.likes.all())
     if user in image.likes.all():
         image.likes.remove(user)
     else:
@@ -57,11 +56,23 @@ def follow(request):
     # followers = user.user_followers.all()
     if Follow.objects.filter(user = user, followed_by = request.user):
         Follow.objects.filter(user = user, followed_by = request.user).delete()
-        print("Deleted")
         followed = 0
     else:
         Follow.objects.create(user = user, followed_by = request.user)
-        print("Created")
         followed = 1
     data = {"hey":"hey", "followed":followed}
     return JsonResponse(data)
+
+def add_image(request):
+    user = request.user
+    if request.method == "POST":
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit = False)
+            image.user = user
+            image.save()
+        return redirect("index")
+    else:
+        form = ImageForm()
+
+    return render(request, "add_image.html", {"form":form})
