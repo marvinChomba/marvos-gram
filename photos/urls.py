@@ -6,7 +6,8 @@ from . import views
 urlpatterns = [
     url(r"^$", views.index, name = 'index'),
     url(r"^ajax/like/$",views.like, name = 'like'),
-    url(r"^ajax/comment/$",views.comment, name = "comment")
+    url(r"^ajax/comment/$",views.comment, name = "comment"),
+    url(r"^ajax/follow/$", views.follow, name = "follow")
 ]
 
 if settings.DEBUG:

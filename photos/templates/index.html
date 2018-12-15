@@ -19,6 +19,11 @@
                 <div class="card" id="{{image.id}}">
                     <div class="card-header">
                         {{image.user.username}}
+                        {% if image.user.is_following %}
+                            <button class="btn unfollow-btn" onclick="follower('{{image.id}}')">Unfollow</button>
+                        {% else %}
+                            <button class="btn follow-btn btn-success" onclick="follower('{{image.id}}')">Follow</button>
+                        {% endif %}
                     </div>
                     <div class="card-body"  >
                         <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
@@ -51,6 +56,7 @@
             $(".like-btn").click((e) => {
                 e.preventDefault()
             })
+            
             function liker(id) {
                 image_id = id
                 let icons = document.getElementsByClassName("likes-icon")
@@ -68,17 +74,17 @@
                         icons[imagess].innerHTML = res['likes']
                     }
                 })
-            }
+            } 
             
             $(".comment-btn").click(e => {
                 e.preventDefault()
             })
+            
             function commenter(id) {
                 let comments = document.getElementsByClassName("comments")
                 let image_id = parseInt(id)
                 let commentVals = document.getElementsByClassName("comment-val")
                 let comment = commentVals[id - 1].value
-                let actuals = document.getElementsByClassName("actual-comment")
                 $.ajax({
                     "url": "/ajax/comment/",
                     "type": "POST",
@@ -89,13 +95,36 @@
                     },
                     "dataType": "json",
                     "success": function(res) {
-                        // let p = document.createElement("p")
-                        // p.setAttribute("class", "actual-comment")
-                        // p.textContent = res['user'] + " : " + res["comment"]
-                        // comments[image_id - 1].appendChild(p)
+                        let p = document.createElement("p")
+                        p.setAttribute("class", "actual-comment")
+                        p.textContent = res['user'] + ": " + res["comment"]
+                        comments[image_id - 1].appendChild(p)
                     }
                 })
                 $(".comment-val").val("") 
+            }
+            function follower(id) {
+                let image_id = parseInt(id)
+                alert(image_id)
+                followBtns = document.getElementsByClassName("follow-btn")
+                unfollowBtns = document.getElementsByClassName("unfollow-btn")
+                $.ajax({
+                    "url": "/ajax/follow/",
+                    "type": "POST",
+                    "data": {
+                        "id":image_id,
+                        "csrfmiddlewaretoken": '{{csrf_token}}'
+                        },
+                    "dataType": "json",
+                    "success": function(res) {
+                        if(res['followed'] == 1) {
+                            followBtns[image_id - 1].innerHTML = "<button class='btn unfollow-btn' onclick=follower'('{ { image.id } }')'>Unfollow</button>"
+                        } else {
+                            let btn = document.createElement("button")
+                            unfollowBtns[image_id - 1].innerHTML = "<button class='btn follow-btn btn-success' onclick='follower('{{image.id}}')'>Follow</button>"
+                        }
+                    }
+                })
             }
         </script>
     {% endblock %}

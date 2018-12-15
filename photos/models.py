@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Image(models.Model):
     image_url = models.ImageField(upload_to = 'pics', blank = True)
@@ -8,6 +9,20 @@ class Image(models.Model):
     caption = models.CharField(max_length = 50, blank = True)
     likes = models.ManyToManyField(User, related_name = "likes", blank = True)
     user = models.ForeignKey(User)
+
+    def following(self,request):
+        user = self.user
+        user_followers = user.user_followers.all()
+        arr_ = []
+        for follower in user_followers:
+            arr_.append(follower.user.id)
+        if request.user.id in arr_:
+            print(True)
+            return True
+        else: 
+            print(False)
+            return False
+        
 
 class Profile(models.Model):
     user = models.OneToOneField(User,related_name = "profile")
@@ -20,8 +35,8 @@ class Comments(models.Model):
     user = models.ForeignKey(User, related_name = "comments")
 
 class Follow(models.Model):
-    user = models.ForeignKey(User, related_name = "followers")
-    followed_by = models.ForeignKey(User, related_name = "following")
+    user = models.ForeignKey(User, related_name = "user_followers")
+    followed_by = models.ForeignKey(User, related_name = "user_following")
 
 class idss(models.Model):
     identifier = models.CharField(max_length = 30, null = True)
