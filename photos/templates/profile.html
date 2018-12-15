@@ -11,7 +11,7 @@
 <body>
     <h1>{{user.profile.bio}}</h1>
     {% if user.profile.pic%}
-    <img src="{{user.profile.pic}}" alt="" height="200px" width="200px">
+    <img src="../../media/{{user.profile.pic}}" alt="" height="200px" width="200px">
     {% else %}
     <img src="../../media/pics/profile.png" alt="" height="200px" width="200px">
     {% endif %}

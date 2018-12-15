@@ -25,7 +25,7 @@ def index(request):
             print("Me")
         else:
             user.me = False
-    return render(request,"index.html", {"images":images})
+    return render(request,"index.html", {"images":images,"user":request.user})
 
 def like(request):
     user = request.user
@@ -36,12 +36,15 @@ def like(request):
     last_one = idss.objects.all()
     mwisho = idss.objects.get(pk = last_one.count())
     image = Image.objects.get(pk = mwisho.identifier)
+    to_red = None
     if user in image.likes.all():
         image.likes.remove(user)
+        to_red = 0
     else:
         image.likes.add(user)
+        to_red = 1
     likes = image.likes.all().count()
-    data = {"likes":likes}
+    data = {"likes":likes, "to_red": to_red}
     return JsonResponse(data)
 
 def comment(request):

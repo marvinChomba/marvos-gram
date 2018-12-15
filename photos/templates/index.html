@@ -1,5 +1,6 @@
 {% load bootstrap4 %}
 {% load static%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +10,25 @@
     <title>Home</title>
     {% block styles%}
         {% bootstrap_css %}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
     {% endblock %}
 </head>
 <body>
+    {% include 'navbar.html' %}
     <div class="container" id="image-section">
         {% for image in images%}
+        <img src="{{image.user.profile.pic}}" alt="">
         <div class="row mt-3">
-            <div class="col-4">
+            <div class="col-sm-10 col-md-5 m-auto">
                 <div class="card" id="{{image.id}}">
                     <div class="card-header">
+                        {% if image.user.profile.pic%}
+                        <img src="../../media/{{image.user.profile.pic}}" alt="" height="40px" width="40px" style="border-radius: 50%;">
+                        {% else %}
+                        <img src="../../media/pics/profile.png" alt="" height="40px" width="40px" style="border-radius: 50%;">
+                        {% endif %}
                         {{image.user.username}}
                         {% if image.user.me %}
                             <button class="btn follow-btn"">Me</button>
@@ -35,7 +46,8 @@
                         <form action="{% url 'like' %}" method="post" class="form-inline">
                             {%csrf_token%}
                             <p class="likes-icon mr-2">{{image.likes.all.count}} likes</p>
-                            <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button>
+                            <!-- <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button> -->
+                            <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="far fa-heart"></i></span>
                         </form>
                         <div class="comments">
                             {% for comment in image.comments.all %}
@@ -56,6 +68,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         {% bootstrap_javascript %}
         <script>
+        window.addEventListener( "pageshow", function ( event ) {
+            var historyTraversal = event.persisted ||
+            ( typeof window.performance != "undefined" &&
+            window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
             $(".like-btn").click((e) => {
                 e.preventDefault()
             })
@@ -63,6 +84,7 @@
             function liker(id) {
                 image_id = id
                 let icons = document.getElementsByClassName("likes-icon")
+                let btns = document.getElementsByClassName("fa-heart")
                 $.ajax({
                     "url":"/ajax/like/",
                     "type": "POST",
@@ -75,6 +97,11 @@
                         let imagess = parseInt(image_id)
                         imagess -= 1
                         icons[imagess].innerHTML = res['likes'] + " likes"
+                        if(res["to_red"] == 1) {
+                            btns[imagess].style.color = "red"
+                        } else {
+                            btns[imagess].style.color = "black"
+                        }
                     }
                 })
             } 
