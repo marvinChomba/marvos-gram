@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Image,Follow,Comments,Profile,idss
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.template.loader import render_to_string
+from django.contrib.auth.models import User
 from .forms import ImageForm
 
 # Create your views here.
@@ -19,6 +19,12 @@ def index(request):
             image.user.is_following = True
         else: 
             image.user.is_following = False
+        
+        if image.user.id == request.user.id:
+            user.me = True
+            print("Me")
+        else:
+            user.me = False
     return render(request,"index.html", {"images":images})
 
 def like(request):
@@ -76,3 +82,7 @@ def add_image(request):
         form = ImageForm()
 
     return render(request, "add_image.html", {"form":form})
+
+def profile(request,id):
+    user = User.objects.get(id = id)
+    return render(request, "profile.html", {"user":user})

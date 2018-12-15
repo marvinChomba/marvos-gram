@@ -13,27 +13,29 @@
 </head>
 <body>
     <div class="container" id="image-section">
+        <h1>{{current_user.profile.bio}} h</h1>
         {% for image in images%}
         <div class="row mt-3">
             <div class="col-4">
                 <div class="card" id="{{image.id}}">
                     <div class="card-header">
                         {{image.user.username}}
-                        {% if image.user.id == current_user.id %}
-                            <button class="btn follow-btn" onclick="follower('{{image.id}}')">Me</button>
+                        {% if image.user.me %}
+                            <button class="btn follow-btn"">Me</button>
                         {% elif image.user.is_following %}
                             <button class="btn follow-btn" onclick="follower('{{image.id}}')">Following</button>
                         {% else %}
                             <button class="btn follow-btn" onclick="follower('{{image.id}}')">Follow</button>
                         {% endif %}
                     </div>
-                    <div class="card-body"  >
-                        <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="height: 200px; width: 300px;">
+                    <div class="card-body p-0">
+                        <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="max-height: 400px; width: 100%;">
                     </div>
                     <div class="card-footer">
+                        <p>{{image.caption}}</p>
                         <form action="{% url 'like' %}" method="post" class="form-inline">
                             {%csrf_token%}
-                            <p class="likes-icon mr-2">{{image.likes.all.count}}</p>
+                            <p class="likes-icon mr-2">{{image.likes.all.count}} likes</p>
                             <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button>
                         </form>
                         <div class="comments">
@@ -73,7 +75,7 @@
                     "success": function(res) {
                         let imagess = parseInt(image_id)
                         imagess -= 1
-                        icons[imagess].innerHTML = res['likes']
+                        icons[imagess].innerHTML = res['likes'] + " likes"
                     }
                 })
             } 
@@ -118,10 +120,8 @@
                     "dataType": "json",
                     "success": function(res) {
                         if(res['followed'] == 1) {
-                            // followBtns[image_id - 1].innerHTML = "<button class='btn unfollow-btn' onclick=follower'('{ { image.id } }')'>Unfollow</button>"
                             followBtns[image_id - 1].textContent = "Following"
                         } else {
-                            // followBtns[image_id - 1].innerHTML = "<button class='btn follow-btn btn-success' onclick='follower('{{image.id}}')'>Follow</button>"
                             followBtns[image_id - 1].textContent = "Follow"
 
                         }

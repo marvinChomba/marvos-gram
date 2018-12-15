@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
@@ -11,24 +13,19 @@ class Image(models.Model):
     user = models.ForeignKey(User)
     pub_date = models.DateTimeField(auto_now_add = True, blank = True)
 
-    def following(self,request):
-        user = self.user
-        user_followers = user.user_followers.all()
-        arr_ = []
-        for follower in user_followers:
-            arr_.append(follower.user.id)
-        if request.user.id in arr_:
-            print(True)
-            return True
-        else: 
-            print(False)
-            return False
-        
-
 class Profile(models.Model):
-    user = models.OneToOneField(User,related_name = "profile")
-    bio = models.CharField(max_length = 40)
-    pic = models.ImageField(upload_to = 'pics')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    pic = models.ImageField(upload_to='pics',blank = True)
+    bio = models.CharField(default="Hi!", max_length = 30)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 class Comments(models.Model):
     comm = models.CharField(max_length = 100, blank = True)
