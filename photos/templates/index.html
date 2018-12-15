@@ -30,8 +30,9 @@
                             <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button>
                         </form>
                         <div class="comments">
-                            {% include 'comment.html' %}
-                        </div>
+                            {% for comment in image.comments.all %}
+                            <p class="actual-comment">{{comment.user.username}}: {{comment.comm}}</p>
+                            {% endfor %} </div>
                         <form action="{% url 'comment' %}" method="post" class="form-inline">
                             {% csrf_token %}
                             <input type="text" name="comment" id="" class="form-control comment-val" required>
@@ -51,8 +52,7 @@
                 e.preventDefault()
             })
             function liker(id) {
-                // $(".like-input").val(id)
-                // let image_id = $(".like-input").val()
+                image_id = id
                 let icons = document.getElementsByClassName("likes-icon")
                 $.ajax({
                     "url":"/ajax/like/",
@@ -69,6 +69,7 @@
                     }
                 })
             }
+            
             $(".comment-btn").click(e => {
                 e.preventDefault()
             })
@@ -88,10 +89,10 @@
                     },
                     "dataType": "json",
                     "success": function(res) {
-                        let p = document.createElement("p")
-                        p.setAttribute("class", "actual-comment")
-                        p.textContent = res['user'] + " : " + res["comment"]
-                        comments[image_id - 1].appendChild(p)
+                        // let p = document.createElement("p")
+                        // p.setAttribute("class", "actual-comment")
+                        // p.textContent = res['user'] + " : " + res["comment"]
+                        // comments[image_id - 1].appendChild(p)
                     }
                 })
                 $(".comment-val").val("") 

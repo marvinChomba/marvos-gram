@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'photos',
     'bootstrap4',
+    'comments',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,7 +80,7 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'instagram',
+        'NAME': 'insta',
         "USERNAME":'marvin',
         "PASSWORD": 'marvin24'
     }
