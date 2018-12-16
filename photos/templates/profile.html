@@ -1,5 +1,6 @@
 {% load bootstrap4 %}
 {% load static%}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,31 +8,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    {% block styles%}
+        {% bootstrap_css%}
+        <link rel="stylesheet" href="{% static 'css/profile.css'%}">
+    {% endblock%}
 </head>
-<body>
-    <h1>{{user.profile.bio}}</h1>
-    {% if user.profile.pic%}
-    <img src="../../media/{{user.profile.pic}}" alt="" height="200px" width="200px">
-    {% else %}
-    <img src="../../media/pics/profile.png" alt="" height="200px" width="200px">
-    {% endif %}
-    <table>
-        <thead>
-            <th>Posts</th>
-            <th>Followers</th>
-            <th>Following</th>
-        </thead>
-        <tbody>
-            <td>{{user.posts.all.count}}</td>
-            <td>{{user.user_followers.all.count}}</td>
-            <td>{{user.user_following.all.count}}</td>
-        </tbody>
-    </table>
-    <div class="row">
-    {% for image in user.posts.all%}
-        <div class="col-4">
-            <img src="{{image.image_url.url}}" alt="">
+<body style="overflow-x: hidden">
+    <h1 class="text-center">{{user.username}}</h1>
+    <div class="row profile-head">
+        <div class="col-sm-10 col-md-4">
+            {% if user.profile.pic%}
+            <img src="../../media/{{user.profile.pic}}" alt="" height="200px" width="200px" class="profile-pic">
+            {% else %}
+            <img src="../../media/pics/profile.png" alt="" height="200px" width="200px" class="profile-pic">
+            {% endif %}
         </div>
-    {% endfor %}
+        <div class="col-sm-10 col-md-5">
+            <table class="table">
+                <thead>
+                    <th>Posts</th>
+                    <th>Followers</th>
+                    <th>Following</th>
+                </thead>
+                <tbody>
+                    <td>{{user.posts.all.count}}</td>
+                    <td>{{user.user_followers.all.count}}</td>
+                    <td>{{user.user_following.all.count}}</td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row m-auto image-container">
+            {% for image in user.posts.all%}
+            <div class="user-images col-4">
+                <img src="{{image.image_url.url}}" alt="" height="250px" width="250px">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+    window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted ||
+        ( typeof window.performance != "undefined" &&
+        window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
+    </script>
 </body>
 </html>

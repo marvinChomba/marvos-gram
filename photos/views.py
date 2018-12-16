@@ -8,6 +8,7 @@ from .forms import ImageForm
 # Create your views here.
 @login_required(login_url = "accounts/login")
 def index(request):
+    user_has_liked_list = []
     images = Image.objects.all()
     for image in images:
         user = image.user
@@ -15,6 +16,7 @@ def index(request):
         arr_ = []
         for follower in followers:
             arr_.append(follower.followed_by.id)
+
         if request.user.id in arr_:
             image.user.is_following = True
         else: 
@@ -25,6 +27,11 @@ def index(request):
             print("Me")
         else:
             user.me = False
+        if request.user in image.likes.all():
+            image.user_has_liked = True
+        else:
+            image.user_has_liked = False
+        print(image.user_has_liked)
     return render(request,"index.html", {"images":images,"user":request.user})
 
 def like(request):
@@ -83,7 +90,6 @@ def add_image(request):
         return redirect("index")
     else:
         form = ImageForm()
-
     return render(request, "add_image.html", {"form":form})
 
 def profile(request,id):

@@ -1,6 +1,6 @@
 {% load bootstrap4 %}
 {% load static%}
-
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="{% static 'css/index.css' %}">
     {% endblock %}
 </head>
-<body>
+<body style="overflow-x:hidden">
     {% include 'navbar.html' %}
     <div class="container" id="image-section">
         {% for image in images%}
@@ -31,11 +31,11 @@
                         {% endif %}
                         {{image.user.username}}
                         {% if image.user.me %}
-                            <button class="btn follow-btn"">Me</button>
+                            <button class="btn follow-btn" style="position: relative;left: 10000px">Me</button>
                         {% elif image.user.is_following %}
-                            <button class="btn follow-btn" onclick="follower('{{image.id}}')">Following</button>
+                            <a class="btn follow-btn" onclick="follower('{{image.id}}')"><i class="fas fa-user-check"></i></a>
                         {% else %}
-                            <button class="btn follow-btn" onclick="follower('{{image.id}}')">Follow</button>
+                            <a class="btn follow-btn" onclick="follower('{{image.id}}')"><i class="fas fa-user-plus"></i></a>
                         {% endif %}
                     </div>
                     <div class="card-body p-0">
@@ -47,7 +47,11 @@
                             {%csrf_token%}
                             <p class="likes-icon mr-2">{{image.likes.all.count}} likes</p>
                             <!-- <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button> -->
-                            <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="far fa-heart"></i></span>
+                            {% if image.user_has_liked %}
+                            <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: red;border: none"></i></span>
+                            {% else %}
+                            <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: black;"></i></span>
+                            {% endif %}
                         </form>
                         <div class="comments">
                             {% for comment in image.comments.all %}
@@ -101,6 +105,7 @@
                             btns[imagess].style.color = "red"
                         } else {
                             btns[imagess].style.color = "black"
+
                         }
                     }
                 })
@@ -146,9 +151,9 @@
                     "dataType": "json",
                     "success": function(res) {
                         if(res['followed'] == 1) {
-                            followBtns[image_id - 1].textContent = "Following"
+                            followBtns[image_id - 1].innerHTML = "<i class='fas fa-user-check'></i>"
                         } else {
-                            followBtns[image_id - 1].textContent = "Follow"
+                            followBtns[image_id - 1].innerHTML = "<i class='fas fa-user-plus'></i>"
 
                         }
                     }

@@ -1,0 +1,15 @@
+.profile-head {
+    display: flex;
+    justify-content: center
+}
+.profile-pic {
+    border-radius: 50%;
+}
+.user-images {
+    display: flex;
+    justify-content: flex-end;
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+}
