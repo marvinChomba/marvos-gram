@@ -9,7 +9,8 @@ urlpatterns = [
     url(r"^ajax/comment/$",views.comment, name = "comment"),
     url(r"^ajax/follow/$", views.follow, name = "follow"),
     url(r"^add/image$", views.add_image, name = "add_image"),
-    url(r"^profile/(\d+)/$", views.profile, name = "profile" )
+    url(r"^profile/(\d+)/$", views.profile, name = "profile" ),
+    url(r"^profile/update/$", views.update_profile, name = "update_profile")
 ]
 
 if settings.DEBUG:

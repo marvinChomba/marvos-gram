@@ -3,7 +3,7 @@ from .models import Image,Follow,Comments,Profile,idss
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from .forms import ImageForm
+from .forms import ImageForm,ProfileForm
 
 # Create your views here.
 @login_required(login_url = "accounts/login")
@@ -85,12 +85,27 @@ def add_image(request):
             image = form.save(commit = False)
             image.user = user
             image.save()
-        return redirect("index")
+            return redirect("index")
     else:
         form = ImageForm()
     return render(request, "add_image.html", {"form":form})
 
-
+def update_profile(request):
+    user = request.user
+    if request.method == "POST":
+        form = ProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            new_bio = form.cleaned_data["bio"]
+            new_pic = form.cleaned_data["pic"]
+            profile = Profile.objects.get(user = request.user)
+            profile.bio = new_bio
+            profile.pic = new_pic
+            profile.save()
+            g = "/profile/" + str(request.user.id) + "/"
+            return redirect(g)
+    else:
+        form = ProfileForm()
+    return render(request, "update_profile.html", {"form":form})  
 
 def profile(request,id):
     user = User.objects.get(id = id)

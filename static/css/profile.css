@@ -2,8 +2,23 @@
     display: flex;
     justify-content: center
 }
+nav {
+    box-shadow: 0 4px 2px -2px gray;
+    margin-bottom: 50px;
+}
 .profile-pic {
     border-radius: 50%;
+    position: relative;
+    bottom: 20px;
+}
+.profile-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center
+}
+.image-container {
+    display: flex;
+    justify-content: center;
 }
 /* .user-images {
     display: flex;

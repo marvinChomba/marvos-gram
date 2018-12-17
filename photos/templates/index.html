@@ -44,11 +44,10 @@
                     </div>
                     <div class="card-footer">
                         {% if image.user_has_liked %}
-                        <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: red;border: none"></i></span>
+                        <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: red;border: none;font-size: 20px"></i></span>
                         {% else %}
-                        <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="far fa-heart"></i></span>
+                        <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="far fa-heart" style="font-size: 20px"></i></span>
                         {% endif %}
-                        <span><i class="far fa-comment ml-2" onclick="comment('{{image.id}}')" style="cursor:pointer"></i></span>
                         <p>{{image.caption}}</p>
                         <form action="{% url 'like' %}" method="post" class="form-inline">
                             {%csrf_token%}
