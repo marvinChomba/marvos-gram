@@ -12,7 +12,8 @@ urlpatterns = [
     url(r"^add/image$", views.add_image, name = "add_image"),
     url(r"^profile/(\d+)/$", views.profile, name = "profile" ),
     url(r"^profile/update/$", views.update_profile, name = "update_profile"),
-    url(r"search/$", views.search_user, name = "search")
+    url(r"search/$", views.search_user, name = "search"),
+    url(r"^feed/$", views.feed, name = "feed")
 ]
 
 if settings.DEBUG:

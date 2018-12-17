@@ -32,6 +32,25 @@ def index(request):
             image.user_has_liked = False
     return render(request,"index.html", {"images":images,"user":request.user})
 
+@login_required(login_url = "/accounts/login/")
+def feed(request):
+    all_images = []
+    following_arr = []
+    for following in request.user.user_following.all():
+        following_arr.append(following.user.id)
+    
+    for image in Image.objects.all():
+        if image.user.id in following_arr:
+            all_images.append(image)
+
+    for image in all_images:
+        if request.user in image.likes.all():
+            image.user_has_liked = True
+        else:
+            image.user_has_liked = False
+
+    return render(request, "feed.html", {"images":all_images})
+
 def like(request):
     user = request.user
     images = Image.objects.all()
