@@ -101,8 +101,8 @@ def update_profile(request):
             profile.bio = new_bio
             profile.pic = new_pic
             profile.save()
-            g = "/profile/" + str(request.user.id) + "/"
-            return redirect(g)
+            final_url = "/profile/" + str(request.user.id) + "/"
+            return redirect(final_url)
     else:
         form = ProfileForm()
     return render(request, "update_profile.html", {"form":form})  

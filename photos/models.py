@@ -13,6 +13,16 @@ class Image(models.Model):
     user = models.ForeignKey(User, related_name = "posts")
     pub_date = models.DateTimeField(auto_now_add = True, blank = True)
 
+    def save_image(self):
+        self.save()
+
+    def delete_image(self):
+        cls.objects.get(id = self.id).delete()
+
+    def update_caption(self,new_caption):
+        self.caption = new_caption
+        self.save()
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     pic = models.ImageField(upload_to='pics',blank = True)
@@ -26,6 +36,12 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+    
+    @classmethod
+    def search_user(cls,id):
+        profile = Profile.objects.get(id = id)
+        profile_user_name = profile.user.username
+        return User.objects.filter(username__icontains = profile_user_name)
 
 class Comments(models.Model):
     comm = models.CharField(max_length = 100, blank = True)

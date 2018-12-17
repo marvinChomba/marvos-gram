@@ -37,8 +37,8 @@
             </div>
         </div>
         <hr>
-        <div class="container border border-black">
-            <div class="row m-auto image-container border border-black" style="max-width: 750px">
+        <div class="container">
+            <div class="row m-auto image-container" style="max-width: 750px">
                 {% for image in user.posts.all%}
                 <div class="user-images col-4">
                     <img src="{{image.image_url.url}}" alt="" height="200px" width="200px">
