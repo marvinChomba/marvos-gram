@@ -5,11 +5,11 @@
 .profile-pic {
     border-radius: 50%;
 }
-.user-images {
+/* .user-images {
     display: flex;
     justify-content: flex-end;
 }
 .image-container {
     display: flex;
     justify-content: center;
-}
+} */

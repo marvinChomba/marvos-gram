@@ -24,14 +24,12 @@ def index(request):
         
         if image.user.id == request.user.id:
             user.me = True
-            print("Me")
         else:
             user.me = False
         if request.user in image.likes.all():
             image.user_has_liked = True
         else:
             image.user_has_liked = False
-        print(image.user_has_liked)
     return render(request,"index.html", {"images":images,"user":request.user})
 
 def like(request):
@@ -92,6 +90,15 @@ def add_image(request):
         form = ImageForm()
     return render(request, "add_image.html", {"form":form})
 
+
+
 def profile(request,id):
     user = User.objects.get(id = id)
-    return render(request, "profile.html", {"user":user})
+    print(request.user.id)
+    print("****")
+    
+    if request.user.id == int(id):
+        print("Mine")
+        return render(request, "my-profile.html", {"user":user, "current_user":request.user})
+    else:
+        return render(request, "profile.html", {"user":user,"current_user":request.user})

@@ -29,7 +29,8 @@
                         {% else %}
                         <img src="../../media/pics/profile.png" alt="" height="40px" width="40px" style="border-radius: 50%;">
                         {% endif %}
-                        {{image.user.username}}
+                        <a href="{% url 'profile' image.user.id%}" class="text-dark"> {{image.user.username}}
+                        </a>
                         {% if image.user.me %}
                             <button class="btn follow-btn" style="position: relative;left: 10000px">Me</button>
                         {% elif image.user.is_following %}
@@ -42,16 +43,17 @@
                         <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="max-height: 400px; width: 100%;">
                     </div>
                     <div class="card-footer">
+                        {% if image.user_has_liked %}
+                        <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: red;border: none"></i></span>
+                        {% else %}
+                        <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="far fa-heart"></i></span>
+                        {% endif %}
+                        <span><i class="far fa-comment ml-2" onclick="comment('{{image.id}}')" style="cursor:pointer"></i></span>
                         <p>{{image.caption}}</p>
                         <form action="{% url 'like' %}" method="post" class="form-inline">
                             {%csrf_token%}
                             <p class="likes-icon mr-2">{{image.likes.all.count}} likes</p>
                             <!-- <button type="submit" class="btn btn-success like-btn" onclick="liker('{{image.id}}')">Like</button> -->
-                            {% if image.user_has_liked %}
-                            <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: red;border: none"></i></span>
-                            {% else %}
-                            <span onclick="liker('{{image.id}}')" class="likes-btn"><i class="fas fa-heart" style="color: black;"></i></span>
-                            {% endif %}
                         </form>
                         <div class="comments">
                             {% for comment in image.comments.all %}
@@ -102,10 +104,14 @@
                         imagess -= 1
                         icons[imagess].innerHTML = res['likes'] + " likes"
                         if(res["to_red"] == 1) {
+                            btns[imagess].classList.remove("far")
+                            btns[imagess].classList.add("fas")
                             btns[imagess].style.color = "red"
-                        } else {
-                            btns[imagess].style.color = "black"
 
+                        } else {
+                            btns[imagess].classList.remove("fas")
+                            btns[imagess].classList.add("far")  
+                            btns[imagess].style.color = "black"                     
                         }
                     }
                 })
@@ -138,6 +144,7 @@
                 })
                 $(".comment-val").val("") 
             }
+
             function follower(id) {
                 let image_id = parseInt(id)
                 followBtns = document.getElementsByClassName("follow-btn")
