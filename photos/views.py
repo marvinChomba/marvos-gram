@@ -126,6 +126,7 @@ def search_user(request):
     if "user_search_term" in request.GET and request.GET["user_search_term"]:
         term = request.GET.get("user_search_term")
         users = Profile.search_user(term)
+        print(users)
         return render(request, "search.html", {"users":users,"title":term})
 
 def profile(request,id):

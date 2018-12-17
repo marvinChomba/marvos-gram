@@ -9,12 +9,16 @@
     <title>{{title}}</title>
     {% block styles %}
         {% bootstrap_css %}
+        <link rel="stylesheet" href="{% static 'css/search.css'%}">
     {% endblock %}
 </head>
 <body>
     {% include 'navbar.html' %}
-    {% for user in users%}
-        
-    {% endfor %}
+    <div class="container">
+        {% for user in users%}
+        <p>{{user.username}}</p>
+        {% endfor %}
+    </div>
+
 </body>
 </html>
