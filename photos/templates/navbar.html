@@ -9,22 +9,22 @@
     </button>
 
     <div class="collapse navbar-collapse">
-        <form action="{% url 'search' %}" role="search" class="form-inline navbar-center">
+        <form action="{% url 'search' %}" role="search" class="form-inline navbar-center" style="position:relative; left: 30%">
             <input type="text" name="user_search_term" id="" class="form-control" style="height: 30px;border-top-right-radius: 0;border-bottom-right-radius: 0">
             <button type="submit">Search</button>
         </form>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active ml-3 mt-1">
-                <a class="nav-link" href="/"><i class="fas fa-home" style="font-size: 23px"></i></span></a>
+                <a class="nav-link" href="/"><i class="fas fa-home" style="font-size: 18px"></i></span></a>
             </li>
             <li class="nav-item active ml-3 mt-1">
-                <a class="nav-link" href="{% url 'profile' user.id %}"><i class="fas fa-user" style="font-size: 23px"></i></a>
+                <a class="nav-link" href="{% url 'profile' user.id %}"><i class="fas fa-user" style="font-size: 18px"></i></a>
             </li>
             <li class="nav-item active">
-<a class="nav-link ml-3 mt-1" href="/accounts/password/change"><i class="fas fa-user-lock" style="font-size: 23px"></i></a>
+<a class="nav-link ml-3 mt-1" href="/accounts/password/change"><i class="fas fa-user-lock" style="font-size: 18px"></i></a>
             </li>
             <li class="nav-item active ml-3 mt-1">
-                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt" style="font-size: 23px"></i></a>
+            <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt" style="font-size: 18px"></i></a>
             </li>
         </ul>
     </div>

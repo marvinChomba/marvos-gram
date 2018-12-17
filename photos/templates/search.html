@@ -16,9 +16,33 @@
     {% include 'navbar.html' %}
     <div class="container">
         {% for user in users%}
-        <p>{{user.username}}</p>
+            <div class="user-profiles">
+                {% if user.profile.pic%}
+                <img class="d-inline-block" src="../../media/{{user.profile.pic}}" alt="" height="60px" width="60px" style="border-radius: 50%;">
+                {% else %}
+                <img class="d-inline-block" src="../../media/pics/profile.png" alt="" height="60px" width="60px" style="border-radius: 50%;">
+                {% endif %}
+                <h4 class="d-inline-block">{{user.username}}</h4>
+                <table class="table w-50 mt-4">
+                    <tbody>
+                        <td>Posts: {{user.posts.all.count}}</td>
+                        <td>Following: {{user.user_following.all.count}}</td>
+                        <td>Followers: {{user.user_followers.all.count}}</td>
+                    </tbody>
+                </table>
+            </div>
         {% endfor %}
     </div>
-
+    <script>
+        window.addEventListener( "pageshow", function ( event ) {
+            var historyTraversal = event.persisted ||
+            ( typeof window.performance != "undefined" &&
+            window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
+    </script>
 </body>
 </html>
