@@ -77,6 +77,21 @@ def follow(request):
     data = {"hey":"hey", "followed":followed}
     return JsonResponse(data)
 
+def follow_in_profile(request):
+    user = User.objects.get(id = request.POST.get("id"))
+    followed = None
+    # followers = user.user_followers.all()
+    if Follow.objects.filter(user = user, followed_by = request.user):
+        Follow.objects.filter(user = user, followed_by = request.user).delete()
+        followed = 0
+        count = user.user_followers.all().count()
+    else:
+        Follow.objects.create(user = user, followed_by = request.user)
+        followed = 1
+        count = user.user_followers.all().count()
+    data = {"hey":"hey", "followed":followed, "count":count}
+    return JsonResponse(data)
+
 def add_image(request):
     user = request.user
     if request.method == "POST":
@@ -107,13 +122,26 @@ def update_profile(request):
         form = ProfileForm()
     return render(request, "update_profile.html", {"form":form})  
 
+def search_user(request):
+    if "user_search_term" in request.GET and request.GET["user_search_term"]:
+        term = request.GET.get("user_search_term")
+        users = Profile.search_user(term)
+        return render(request, "search.html", {"users":users,"title":term})
+
 def profile(request,id):
     user = User.objects.get(id = id)
-    print(request.user.id)
-    print("****")
+    followers = user.user_followers.all()
+    followers_arr = []
+    for follower in followers:
+        followers_arr.append(follower.followed_by.id)
+    
+    if request.user.id in followers_arr:
+        is_following = True
+    else:
+        is_following = False
     
     if request.user.id == int(id):
         print("Mine")
         return render(request, "my-profile.html", {"user":user, "current_user":request.user})
     else:
-        return render(request, "profile.html", {"user":user,"current_user":request.user})
+        return render(request, "profile.html", {"user":user,"current_user":request.user, "is_following": is_following})

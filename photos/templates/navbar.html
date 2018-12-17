@@ -9,9 +9,10 @@
     </button>
 
     <div class="collapse navbar-collapse">
-        <form action="" method="post" class="form-inline navbar-center">
+        <form action="{% url 'search' %}" role="search" class="form-inline navbar-center">
+            {% csrf_token %}
             <input type="text" name="user_search_term" id="" class="form-control" style="height: 30px;border-top-right-radius: 0;border-bottom-right-radius: 0">
-            <button type="submit" style="height: 30px; border-top-left-radius: 0; border-bottom-left-radius: 0">Search</button>
+<a type="submit" style="height: 30px; border-top-left-radius: 0; border-bottom-left-radius: 0"><i class="fas fa-search"></i></a>
         </form>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">

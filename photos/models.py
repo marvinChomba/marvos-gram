@@ -38,10 +38,8 @@ class Profile(models.Model):
         instance.profile.save()
     
     @classmethod
-    def search_user(cls,id):
-        profile = Profile.objects.get(id = id)
-        profile_user_name = profile.user.username
-        return User.objects.filter(username__icontains = profile_user_name)
+    def search_user(cls,name):
+        return User.objects.filter(username__icontains = name)
 
 class Comments(models.Model):
     comm = models.CharField(max_length = 100, blank = True)
