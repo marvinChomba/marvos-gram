@@ -132,6 +132,10 @@ class ProfileTestCases(self):
         self.new_user = User(username = "Hey")
         self.new_user.save()
 
+    def tearDown(self):
+        User.objects.all().delete()
+        Profile.objects.all().delete()
+        
     def test_is_instance(self):
         """
         This will test whether the new profile is an instance of the Profile class
