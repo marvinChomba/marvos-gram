@@ -10,15 +10,18 @@
     <title>New Image</title>
     {{form.media}}
 
-    {% block styles %} 
+    {% block styles %}
     {% bootstrap_css %}
-    <link rel="stylesheet" href="{% static 'css/news.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/form.css'%}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+        crossorigin="anonymous">
     {% endblock %}
 
 </head>
 
 <body>
-    <div class="col-sm-6 m-auto">
+    {% include 'navbar.html' %}
+    <div class="col-sm-6 form-container">
         <form action="{%url 'add_image'%}" method="post" enctype="multipart/form-data">
             {%csrf_token%}
 

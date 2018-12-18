@@ -60,8 +60,8 @@
                             {% endfor %} </div>
                         <form action="{% url 'comment' %}" method="post" class="form-inline">
                             {% csrf_token %}
-                            <input type="text" name="comment" id="" class="form-control comment-val" required>
-                            <button type="submit" class="btn btn-sm btn-primary comment-btn" onclick="commenter('{{image.id}}')">Add</button>
+                            <input type="text" name="comment" id="" class="form-control comment-val"  style="height: 30px;border-top-right-radius: 0; border-bottom-right-radius: 0" required placeholder="Add a comment...">
+                            <button type="submit" class="btn btn-sm btn-primary comment-btn" onclick="commenter('{{image.id}}')" style="height: 30px; border-top-left-radius: 0; border-bottom-left-radius: 0" >Add</button>
                         </form>
                     </div>
                 </div>
@@ -90,27 +90,35 @@
                 image_id = id
                 let icons = document.getElementsByClassName("likes-icon")
                 let btns = document.getElementsByClassName("fa-heart")
+                btns_arr = []
+                icons_arr = []
+                for (let i of btns) {
+                    btns_arr.unshift(i)
+                }
+                for(let i of icons) {
+                    icons_arr.unshift(i)
+                }
                 $.ajax({
                     "url":"/ajax/like/",
                     "type": "POST",
                     "data": {
-                        "id":image_id, 
+                        "id":image_id,  
                         "csrfmiddlewaretoken": '{{csrf_token}}'
                     },
                     "dataType":"json",
                     "success": function(res) {
                         let imagess = parseInt(image_id)
                         imagess -= 1
-                        icons[imagess].innerHTML = res['likes'] + " likes"
+                        icons_arr[imagess].innerHTML = res['likes'] + " likes"
                         if(res["to_red"] == 1) {
-                            btns[imagess].classList.remove("far")
-                            btns[imagess].classList.add("fas")
-                            btns[imagess].style.color = "red"
+                            btns_arr[imagess].classList.remove("far")
+                            btns_arr[imagess].classList.add("fas")
+                            btns_arr[imagess].style.color = "red"
 
                         } else {
-                            btns[imagess].classList.remove("fas")
-                            btns[imagess].classList.add("far")  
-                            btns[imagess].style.color = "black"                     
+                            btns_arr[imagess].classList.remove("fas")
+                            btns_arr[imagess].classList.add("far")  
+                            btns_arr[imagess].style.color = "black"                     
                         }
                     }
                 })
@@ -124,7 +132,16 @@
                 let comments = document.getElementsByClassName("comments")
                 let image_id = parseInt(id)
                 let commentVals = document.getElementsByClassName("comment-val")
-                let comment = commentVals[id - 1].value
+                comments_arr = []
+                commentVal_arr = []
+                for(let i of comments) {
+                    comments_arr.unshift(i)
+                }
+                for(let i of commentVals) {
+                    commentVal_arr.unshift(i)
+                }
+                let comment = commentVal_arr[id - 1].value
+                console.log(comment)
                 $.ajax({
                     "url": "/ajax/comment/",
                     "type": "POST",
@@ -138,7 +155,7 @@
                         let p = document.createElement("p")
                         p.setAttribute("class", "actual-comment")
                         p.textContent = res['user'] + ": " + res["comment"]
-                        comments[image_id - 1].appendChild(p)
+                        comments_arr[image_id - 1].appendChild(p)
                     }
                 })
                 $(".comment-val").val("") 
@@ -147,6 +164,10 @@
             function follower(id) {
                 let image_id = parseInt(id)
                 followBtns = document.getElementsByClassName("follow-btn")
+                followBtns_arr = []
+                for (let i of followBtns) {
+                    followBtns_arr.unshift(i)
+                }
                 $.ajax({
                     "url": "/ajax/follow/",
                     "type": "POST",
@@ -157,10 +178,9 @@
                     "dataType": "json",
                     "success": function(res) {
                         if(res['followed'] == 1) {
-                            followBtns[image_id - 1].innerHTML = "<i class='fas fa-user-check'></i>"
+                            followBtns_arr[image_id - 1].innerHTML = "<i class='fas fa-user-check'></i>"
                         } else {
-                            followBtns[image_id - 1].innerHTML = "<i class='fas fa-user-plus'></i>"
-
+                            followBtns_arr[image_id - 1].innerHTML = "<i class='fas fa-user-plus'></i>"
                         }
                     }
                 })

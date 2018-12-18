@@ -9,7 +9,7 @@ from .forms import ImageForm,ProfileForm
 @login_required(login_url = "accounts/login")
 def index(request):
     user_has_liked_list = []
-    images = Image.objects.all()
+    images = Image.objects.all().order_by("-pub_date")
     for image in images:
         user = image.user
         followers = user.user_followers.all()
