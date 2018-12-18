@@ -41,11 +41,23 @@ class Profile(models.Model):
     def search_user(cls,name):
         return User.objects.filter(username__icontains = name)
 
+    
+
 class Comments(models.Model):
     comm = models.CharField(max_length = 100, blank = True)
     image = models.ForeignKey(Image, related_name = "comments")
     user = models.ForeignKey(User, related_name = "comments")
 
+    def save_comment(self):
+        self.save()
+
+    def delete_comment(self):
+        Comments.objects.get(id = self.id).delete()
+    
+    def update_comment(self,new_comment):
+        comm = Comments.objects.get(id = self.id)
+        comm.comment = new_comment
+        comm.save()
 class Follow(models.Model):
     user = models.ForeignKey(User, related_name = "user_followers")
     followed_by = models.ForeignKey(User, related_name = "user_following")
