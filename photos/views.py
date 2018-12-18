@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Image,Follow,Comments,Profile,idss
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponseRedirect
 from django.contrib.auth.models import User
 from .forms import ImageForm,ProfileForm
 
@@ -148,6 +148,10 @@ def search_user(request):
         print(users)
         return render(request, "search.html", {"users":users,"title":term})
 
+def my_profile(request):
+    user = request.user
+    return render(request, "my-profile.html", {"user":user, "current_user":request.user})
+
 def profile(request,id):
     user = User.objects.get(id = id)
     followers = user.user_followers.all()
@@ -161,7 +165,6 @@ def profile(request,id):
         is_following = False
     
     if request.user.id == int(id):
-        print("Mine")
-        return render(request, "my-profile.html", {"user":user, "current_user":request.user})
+        HttpResponseRedirect("my_profile")
     else:
         return render(request, "profile.html", {"user":user,"current_user":request.user, "is_following": is_following})

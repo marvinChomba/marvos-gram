@@ -13,7 +13,8 @@ urlpatterns = [
     url(r"^profile/(\d+)/$", views.profile, name = "profile" ),
     url(r"^profile/update/$", views.update_profile, name = "update_profile"),
     url(r"search/$", views.search_user, name = "search"),
-    url(r"^feed/$", views.feed, name = "feed")
+    url(r"^feed/$", views.feed, name = "feed"),
+    url(r"^accounts/profile/$", views.my_profile, name = "my_profile")
 ]
 
 if settings.DEBUG:

@@ -21,6 +21,7 @@ from django.contrib.auth import views
 urlpatterns = [
     url(r'^marvinchombaisag/', admin.site.urls),
     url(r"^logout/", views.logout, {"next_page":"/"}),
+    url(r"", include("photos.urls")),
     url(r"^accounts/",include("registration.backends.simple.urls")),
-    url(r"", include("photos.urls"))
+
 ]
