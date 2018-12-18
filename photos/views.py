@@ -165,6 +165,6 @@ def profile(request,id):
         is_following = False
     
     if request.user.id == int(id):
-        HttpResponseRedirect("my_profile")
+        return redirect("my_profile")
     else:
         return render(request, "profile.html", {"user":user,"current_user":request.user, "is_following": is_following})

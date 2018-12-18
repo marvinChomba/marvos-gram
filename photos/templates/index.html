@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
         crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+
     {% endblock %}
 </head>
 <body style="overflow-x:hidden">
@@ -38,6 +40,9 @@
                         {% else %}
                             <a class="btn follow-btn" onclick="follower('{{image.id}}')"><i class="fas fa-user-plus"></i></a>
                         {% endif %}
+                        <div>
+                            <small>{{image.pub_date|timesince}} ago</small>
+                        </div>
                     </div>
                     <div class="card-body p-0">
                         <img src="{{image.image_url.url}}" alt="" class="img-responsive" style="max-height: 400px; width: 100%;">

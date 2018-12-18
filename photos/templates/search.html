@@ -12,28 +12,34 @@
         <link rel="stylesheet" href="{% static 'css/search.css'%}">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
     crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
+
     {% endblock %}
 </head>
 <body>
     {% include 'navbar.html' %}
     <div class="container">
-        {% for user in users%}
-            <div class="user-profiles">
-                {% if user.profile.pic%}
-                <img class="d-inline-block" src="../../media/{{user.profile.pic}}" alt="" height="60px" width="60px" style="border-radius: 50%;">
-                {% else %}
-                <img class="d-inline-block" src="../../media/pics/profile.png" alt="" height="60px" width="60px" style="border-radius: 50%;">
-                {% endif %}
-                <h4 class="d-inline-block">{{user.username}}</h4>
-                <table class="table w-50 mt-4">
-                    <tbody>
-                        <td>Posts: {{user.posts.all.count}}</td>
-                        <td>Following: {{user.user_following.all.count}}</td>
-                        <td>Followers: {{user.user_followers.all.count}}</td>
-                    </tbody>
-                </table>
-            </div>
-        {% endfor %}
+        {% if users %}
+            {% for user in users%}
+                <div class="user-profiles">
+                    {% if user.profile.pic%}
+                    <img class="d-inline-block" src="../../media/{{user.profile.pic}}" alt="" height="60px" width="60px" style="border-radius: 50%;">
+                    {% else %}
+                    <img class="d-inline-block" src="../../media/pics/profile.png" alt="" height="60px" width="60px" style="border-radius: 50%;">
+                    {% endif %}
+                    <a href="{% url 'profile' user.id%}" class="text-dark"><h4 class="d-inline-block">{{user.username}}</h4></a>
+                    <table class="table w-50 mt-4">
+                        <tbody>
+                            <td>Posts: {{user.posts.all.count}}</td>
+                            <td>Following: {{user.user_following.all.count}}</td>
+                            <td>Followers: {{user.user_followers.all.count}}</td>
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h3>There are no users like dat</h3>
+        {% endif %}
     </div>
     <script>
         window.addEventListener( "pageshow", function ( event ) {

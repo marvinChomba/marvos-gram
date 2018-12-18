@@ -11,20 +11,6 @@ nav {
     position: relative;
     bottom: 20px;
 }
-/* .profile-container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center
+* {
+    font-family: Maven Pro;
 }
-.image-container {
-    display: flex;
-    justify-content: center;
-} */
-/* .user-images {
-    display: flex;
-    justify-content: flex-end;
-}
-.image-container {
-    display: flex;
-    justify-content: center;
-} */
