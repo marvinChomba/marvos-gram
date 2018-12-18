@@ -19,6 +19,7 @@
 
 <body style="overflow-x: hidden; background:#F5F5F5">
     {% include 'navbar.html' %}
+    {% include 'modal.html' %}
     <div class="container" style="margin-top: 130px;">
         <div class="row profile-head mt-5">
             <div class="col-sm-10 col-md-4 text-center">
@@ -45,12 +46,15 @@
             <div class="row text-center m-auto" style="max-width: 750px">
                 {% for image in user.posts.all%}
                 <div class="user-images col-xs-5 col-md-4 mx-0">
-                    <img src="{{image.image_url.url}}" alt="#" height="200px" width="200px">
+<img src="{{image.image_url.url}}" onclick="showModal('{{image.image_url.url}}','{{user.username}}','{{image.caption}}')"alt="#" height="200px" width="200px">
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% bootstrap_javascript %}
     <script>
         window.addEventListener("pageshow", function (event) {
             var historyTraversal = event.persisted ||
@@ -61,7 +65,17 @@
                 window.location.reload();
             }
         });
+        showModal = (url,name,caption) => {
+            $("#label").text(name)
+            $("#myModal").modal("show")
+            $(".mod-img").attr("src",url)
+            $("#img-desc").text(caption)
+            // $("#url-to-copy").val(window.location.origin + url)
+            // $("#img-location").text("Location: " + loc)
+            // $("#img-category").text("Category: " + cat)
+        }
     </script>
+    {% endblock %}
 </body>
 
 </html>
