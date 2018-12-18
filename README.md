@@ -14,7 +14,9 @@ A personal clone of the popular photo-sharing site Instagram(desktop version)
 1. Like a picture and leave a comment on it.
 
 ### How to use :rocket:
-When the user opens the website, he/she will see the will be prompted to sign up or sign in.
+When the user opens the website, he/she will see the will be prompted to sign up or sign in.The user will be able to see posts that other users have posted. He/she can also add their own posts. 
+A user can follow other users and view images posted by those users
+The user also has a personalized profile where they can edit their profile and view the photos they have postd
 
 
 ### Tech used :computer: 
@@ -68,7 +70,7 @@ $ sudo apt-get install postgresql postgresql-contrib libpq-dev
 
 ### Installation
 1. To access this application on your command line, you need to clone it 
-`git clone https://github.com/marvinChomba/pixels.git`
+`git clone https://github.com/marvinChomba/marvos-gram.git`
 1. Create a requirements.txt in the root folder and copy the requirements above.
 1. Install the required technologies with
 `pip install -r requirements.txt`
@@ -89,8 +91,8 @@ Password:<see_me>
 Currently, there are no known bugs
 
 ### Live link
-You can view the live site [here](http://pixelola.herokuapp.com/)
+You can view the live site [here]()
 ### Licence
-This project is under the [MIT](https://github.com/marvinChomba/pixels/blob/master/LICENSE) licence
+This project is under the [MIT](https://github.com/marvinChomba/marvos-gram/blob/master/LICENSE) licence
 
 Copyright (c) 2018 marvinchomba
