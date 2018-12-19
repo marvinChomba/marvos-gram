@@ -3,12 +3,12 @@
         <a href="/"><img src="../../media/images/brand.png" alt="" height="45px" width="130px"></a>
     </div>
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNav"
+        aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="myNav">
         <form action="{% url 'search' %}" role="search" class="form-inline navbar-center" style="position:relative; left: 30%">
             <input type="text" name="user_search_term" id="" class="form-control" style="height: 30px;border-top-right-radius: 0;border-bottom-right-radius: 0">
             <div class="input-group-btn">
