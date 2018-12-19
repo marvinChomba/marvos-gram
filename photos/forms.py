@@ -1,10 +1,12 @@
 from django import forms
 from .models import Image,Profile
+from pyuploadcare.dj.forms import ImageField
 
 class ImageForm(forms.ModelForm):
+    image_url = ImageField(label='Picture')
     class Meta:
         model = Image
-        exclude = ['user','pub_date','likes']
+        fields = ("image_url","name","caption")
 
 # class ImageForm(forms.Form):
 #     name = forms.CharField(label = "Name")
@@ -17,4 +19,4 @@ class ImageForm(forms.ModelForm):
 
 class ProfileForm(forms.Form):
     bio = forms.CharField(label = "Bio")
-    pic = forms.ImageField(label = "Pic")
+    pic = ImageField(label = "Pic")

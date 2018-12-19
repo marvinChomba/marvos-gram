@@ -2,11 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db import models
+from pyuploadcare.dj.models import ImageField
 
+
+    
 
 # Create your models here.
 class Image(models.Model):
-    image_url = models.ImageField(upload_to = 'pics', blank = True)
+    image_url = ImageField(blank=True, manual_crop="")    
     name = models.CharField(unique = True,max_length = 31, blank = True)
     caption = models.CharField(max_length = 50, blank = True)
     likes = models.ManyToManyField(User, related_name = "likes", blank = True)
@@ -25,7 +29,7 @@ class Image(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    pic = models.ImageField(upload_to='pics',blank = True)
+    pic = ImageField(blank=True, manual_crop="")
     bio = models.CharField(default="Hi!", max_length = 30)
 
     @receiver(post_save, sender=User)

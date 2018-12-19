@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'photos',
     'bootstrap4',
     'comments',
+    'pyuploadcare.dj',
     'follow',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -83,7 +84,7 @@ ROOT_URLCONF = 'instagram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,6 +97,10 @@ TEMPLATES = [
         },
     },
 ]
+UPLOADCARE = {
+    'pub_key': 'd0c17dddf4e72bd3f5ff',
+    'secret': '049cc5753cd5d8adaa14',
+}
 
 WSGI_APPLICATION = 'instagram.wsgi.application'
 

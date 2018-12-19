@@ -24,7 +24,7 @@
         <div class="row profile-head mt-5">
             <div class="col-sm-10 col-md-4 text-center">
                 {% if user.profile.pic%}
-                <img src="../../media/{{user.profile.pic}}" alt="" height="180px" width="180px" class="profile-pic">
+                <img src="{{user.profile.pic.cdn_url}}" alt="" height="180px" width="180px" class="profile-pic">
                 {% else %}
                 <img src="../../media/pics/profile.png" alt="" height="180px" width="180px" class="profile-pic">
                 {% endif %}
@@ -51,7 +51,7 @@
             <div class="row m-auto image-container" style="max-width: 750px">
                 {% for image in user.posts.all%}
                 <div class="user-images col-4">
-                    <img src="{{image.image_url.url}}" alt="" onclick="showModal('{{image.image_url.url}}','{{user.username}}','{{image.caption}}')"="200px" width="200px">
+                    <img src="{{image.image_url.cdn_url}}" alt="" onclick="showModal('{{image.image_url.url}}','{{user.username}}','{{image.caption}}')"="200px" width="200px">
                 </div>
                 {% endfor %}
             </div>
