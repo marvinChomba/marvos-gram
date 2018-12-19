@@ -50,8 +50,8 @@
         <div class="container">
             <div class="row m-auto image-container" style="max-width: 750px">
                 {% for image in user.posts.all%}
-                <div class="user-images col-4">
-                    <img src="{{image.image_url.cdn_url}}" alt="" onclick="showModal('{{image.image_url.url}}','{{user.username}}','{{image.caption}}')"="200px" width="200px">
+                    <div class="user-images col-sx-10 col-sm-6 col-md-6 col-lg-4 mb-1">
+                    <img src="{{image.image_url.cdn_url}}" alt="" onclick="showModal('{{image.image_url.cdn_url}}','{{user.username}}','{{image.caption}}')"="200px" width="200px">
                 </div>
                 {% endfor %}
             </div>

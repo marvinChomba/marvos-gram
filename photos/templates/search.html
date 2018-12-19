@@ -41,6 +41,9 @@
             <h3>There are no users like dat</h3>
         {% endif %}
     </div>
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% bootstrap_javascript %}
     <script>
         window.addEventListener( "pageshow", function ( event ) {
             var historyTraversal = event.persisted ||
@@ -52,5 +55,6 @@
             }
         });
     </script>
+{% endblock %}
 </body>
 </html>

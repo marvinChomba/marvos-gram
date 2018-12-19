@@ -10,3 +10,6 @@ nav {
 * {
     font-family: Maven Pro;
 }
+.desc-on-sm {
+    display: none;
+}
