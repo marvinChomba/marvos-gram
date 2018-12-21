@@ -11,7 +11,7 @@ from pyuploadcare.dj.models import ImageField
 # Create your models here.
 class Image(models.Model):
     image_url = ImageField(blank=True, manual_crop="")    
-    name = models.CharField(unique = True,max_length = 31, blank = True)
+    name = models.CharField(max_length = 31, blank = True)
     caption = models.CharField(max_length = 50, blank = True)
     likes = models.ManyToManyField(User, related_name = "likes", blank = True)
     user = models.ForeignKey(User, related_name = "posts", blank = True)

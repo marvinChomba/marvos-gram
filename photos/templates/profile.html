@@ -11,6 +11,7 @@
     {% block styles%}
         {% bootstrap_css%}
         <link rel="stylesheet" href="{% static 'css/profile.css'%}">
+
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
             crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet">
@@ -53,6 +54,8 @@
                     <div class="user-images col-sx-10 col-sm-6 col-md-6 col-lg-4 mb-1">
                     <img src="{{image.image_url.cdn_url}}" alt="" onclick="showModal('{{image.image_url.cdn_url}}','{{user.username}}','{{image.caption}}')"="200px" width="200px">
                 </div>
+                {% empty %}
+                    <h4 class="text-center">User has no posts</h4>
                 {% endfor %}
             </div>
         </div>
